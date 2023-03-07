@@ -1,5 +1,6 @@
 package com.example.warkopinapp.view
 
+import android.content.res.AssetManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.warkopinapp.adapter.PersonAdapter
 import com.example.warkopinapp.databinding.LocalFragmentBinding
+import com.example.warkopinapp.model.Person
 import com.google.gson.Gson
 import java.io.IOException
 import java.io.InputStream
@@ -29,7 +31,8 @@ class LocalFragment: Fragment() {
 
         if (activity != null) {
 
-            val adapter = PersonAdapter(loadJSONFromAsset())
+            val itemLocal = Gson().fromJson(activity?.assets?.readAssetsFile("persons.json"), Person::class.java)
+            val adapter = PersonAdapter(arrayListOf(itemLocal))
 
             localBinding.rvPerson.apply {
                 layoutManager = LinearLayoutManager(activity)
@@ -39,21 +42,7 @@ class LocalFragment: Fragment() {
         }
     }
 
-    private fun loadJSONFromAsset(): String? {
-        var json: String? = null
-        json = try {
-            val `is`: InputStream = activity?.assets!!.open("persons.json")
-            val size: Int = `is`.available()
-            val buffer = ByteArray(size)
-            `is`.read(buffer)
-            `is`.close()
-            String(buffer, "UTF-8")
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            return null
-        }
-        return json
-    }
+    private fun AssetManager.readAssetsFile(fileName : String): String = open(fileName).bufferedReader().use{it.readText()}
 
     companion object {
         const val ARG_SECTION_NUMBER = "section_number"
