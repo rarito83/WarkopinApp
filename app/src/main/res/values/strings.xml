@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WarkopinApp</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="tab_text_1">Local</string>
+    <string name="tab_text_2">Remote</string>
+    <string name="content_tab_local">Local Data</string>
+    <string name="content_tab_remote">Remote Data</string>
+    <string name="content_tab_text">This is Tab %1$d</string>
+</resources>
